@@ -19,9 +19,21 @@ const sellerSchema = new mongoose.Schema({
         type:Number,
         required:[true,"please enter your number"]
     },
+    shopname:{
+        type:String,
+        required:[true,"please enter your shopname"]
+    },
     address:{
         type:String,
         required:[true,"please enter your address"]
+    },
+    shopDescriptions:{
+        type:String,
+        required:[true,"please enter your shopDescriptions"]
+    },
+    city:{
+        type:String,
+        required:[true,"please enter your city"]
     },
     role:{
         type:String,
