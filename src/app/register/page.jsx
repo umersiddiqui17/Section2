@@ -8,12 +8,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Rgister() {
- const [seller,setseller] = useState({name:"",email:"",password:"",phonenumber:0,shopname:"",address:"",shopDescriptions:"",city:"",role:"seller"})
+ const [seller,setseller] = useState({name:"",email:"",password:"",phonenumber:"",shopname:"",address:"",shopDescriptions:"",city:"",role:"seller"})
  const router = useRouter()
  const handleSubmit =async(e)=>{
   e.preventDefault()
   try {
-    if (!seller.email || !seller.password) {
+    if (!seller.email || !seller.password || !seller.name || !seller.phonenumber || !seller.shopname || !seller.address || !seller.shopDescriptions || !seller.city) {
       toast.error('Login unsuccessfull!', {
           position: "bottom-right",
           autoClose: 5000,

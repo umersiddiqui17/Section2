@@ -15,7 +15,10 @@ export const authOptions = {
         const {email,password} = credentials
         try{
           await connect()
-          const user = await Seller.findOne({email})
+          let user = await Seller.findOne({email})
+          if (!user) {
+            user = await Buyer.findOne({email})
+          }
           
           if(!user){
             
@@ -48,6 +51,7 @@ export const authOptions = {
       if (user) {
         token.email = user.email
         token.role = user.role
+        token.name = user.name
       }
       return token;
     },
@@ -56,6 +60,7 @@ export const authOptions = {
       if (session.user) {
         session.user.email = token.email;
         session.user.role = token.role;
+        session.user.name = token.name;
       }
       console.log(session)
       return session;

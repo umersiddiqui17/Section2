@@ -7,6 +7,10 @@ export default async function middleware(req) {
     req:req,
     secret:process.env.NEXTAUTH_SECRET
  })
+    const ifSeller = token && token.role === 'seller';
+
+    const SellerRoutes = path === '/addProduct' || path === '/editProduct' || path === '/dashboard'
+
     const publicPath = path === "/login" || path === "/register"
 
     if(publicPath && token){
@@ -16,8 +20,11 @@ export default async function middleware(req) {
     if(!publicPath && !token){
         return NextResponse.redirect(new URL("/login",req.nextUrl))
     }
+    if(!ifSeller && SellerRoutes){
+        return NextResponse.redirect(new URL("/",req.nextUrl))
+    }
 }   
   
 export const config = {
-    matcher:["/register","/login","/dashboard/:path*"]
+    matcher:["/register","/customerSignup","/login","/dashboard/:path*"]
 }
