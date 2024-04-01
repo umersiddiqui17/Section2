@@ -2,9 +2,12 @@
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import  MoonLoader  from "react-spinners/MoonLoader";
+
 
 export default function Profile() {
    const [userdata,setuserdata] =useState([])
+   const [loading,setloading] = useState(true)
     const {data:session} = useSession()
     const email = session && session.user && session.user.email
    //  console.log(email)
@@ -13,9 +16,10 @@ export default function Profile() {
         try {
           const res = await axios.get(`/api/profile/${email}`);
           setuserdata(res.data.user);
-          console.log(res.data.user)
+          setloading(false);
         } catch (error) {
           console.error('Error fetching data:', error);
+          setloading(false);
         }
       };
   
@@ -25,14 +29,23 @@ export default function Profile() {
     }, [email, userdata.length]);
   return (
     <div>
-       {session?(
+       {loading?(
+         <div className='flex justify-center items-center mt-40 flex-col'>
+            <MoonLoader
+  color="#db0d41"
+  size={60}
+/>
+<div className='text-red-600'>Please wait while we set everything up</div>
+       </div>
+       ): session?(
         <div className='flex flex-col justify-center items-center'>
             <div className='flex justify-center items-center'>
                  <h1 className='text-red-600 text-3xl font-semibold'>Profile</h1>
                  <p>{session && session.user.email}</p>
             </div>
-            <div className='w-4/5 h-4/5 flex flex-col items-start '>
-                <div>
+            <div className='w-3/4 h-4/5 flex items-start border shadow-2xl '>
+               <div className='flex flex-col items-start space-y-3 mt-5 ml-5 mb-5'>
+                        <div>
                     <h1 className='text-2xl font-semibold'>{session&&session.user.name}</h1>
                 </div>
                 <div className='flex justify-center items-center'>
@@ -43,19 +56,13 @@ export default function Profile() {
                     <h1 className=' text-gray-500 mr-2'>phone number</h1>
                     <h1>{userdata.phonenumber}</h1>
                  </div>
-                 <div>
+                 <div className='flex justify-center items-center'>
                     <h1 className=' text-gray-500 mr-2'>address</h1>
                     <h1>{userdata.address}</h1>
                  </div>
-                 <div>
-                    <h1 className=' text-gray-500 mr-2'>Shop Name</h1>
-                 </div>
-                 <div>
-                    <h1 className=' text-gray-500 mr-2'>Shop Description</h1>
-                 </div>
-                 <div>
-                    <h1 className=' text-gray-500 mr-2'>City</h1>
-                 </div>
+               </div>
+          
+            
             </div>
             
          
