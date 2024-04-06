@@ -9,6 +9,17 @@ export default{
             type:'string'
         },
         {
+            name:'shopname',
+            title:'Shopname',
+            type:'string'
+        },
+        {
+            name:'shopslug',
+            title: 'Slug of The shop',
+            type:'slug',
+            options: {source:'shopname'}
+        },
+        {
             name: 'description',
             title: 'Description',
             type:'text'
@@ -53,8 +64,8 @@ export default{
             type: 'datetime'
         },
         {
-            name:'approved',
-            title:'Approved',
+            name:'featured',
+            title:'Featured',
             type:'boolean',
             description:'Product will not be shown on the carousal if they are not approved'
         },
